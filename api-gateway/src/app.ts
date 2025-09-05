@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 import express, { Request, Response } from "express";
 import { Routes } from "./interfaces/route.type";
-//import { middleware } from "./interfaces/middleware.type";
+import { authentication } from "./middlewares/authentication";
 import { Route } from "./interfaces/routeProps.interface";
 import AppService from "./services/app.service";
 
@@ -15,7 +15,7 @@ class App {
       origin: "/api/order", // endpoint del gateway
       target: `${AppService.PATH_ORDER}/order`, // endpoint real del microservicio
       method: "POST",
-      middlewares: [] // middleware que requiere verificar la autenticación
+      middlewares: [authentication] // middleware que requiere verificar la autenticación
     },
     {
       origin: "/api/auth/register",
