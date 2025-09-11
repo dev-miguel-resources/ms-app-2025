@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  gateway:
+   container_name: gateway
+   image: gateway
+   restart: always
+   build:
+    context: .
+    dockerfile: api-gateway/dockerfile
+    args:
+     - BASE_DIR=api-gateway
+   env_file:
+    - ./api-gateway/.env
+   ports:
+     - "9500:8000"
+   networks:
+    - net-ms
+   # definiciones de dependencia pendientes
+
+networks:
+  net-ms:

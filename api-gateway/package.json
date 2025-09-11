@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
+    "clean": "rimraf cache dist",
     "dev": "nodemon src/index.ts",
     "prettier:check": "prettier --check src/**/*.{ts,json}",
-    "prettier:fix": "prettier --write src/**/*.{ts,json}"
+    "prettier:fix": "prettier --write src/**/*.{ts,json}",
+    "build": "yarn run clean && tsc && gulp minify",
+    "serve": "node dist/index.js"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { Request, Response, NextFunction } from "express";
 import AppService from "../services/app.service";
+import jwt_decode from "jwt-decode";
 
 // Verificamos si existe o no el header Authorization que es donde se manda el token
 const existsHeaderAuthorization = (req: Request): boolean => {
@@ -40,7 +41,38 @@ const isAccessTokenValid = async (req: Request): Promise<boolean> => {
 };
 
 // Decode-Decodificar el JWT para obtener el userId y eso lo guardamos en res.locals
-const setUserId = (req: Request, res: Response) => {};
+const setUserId = (req: Request, res: Response) => {
+  const accessToken = req.headers.authorization.split(" ")[1] as string;
+  try {
+    const payload: any = jwt_decode(accessToken);
+
+    res.locals.userId = payload.userId;
+  } catch (err) {
+    console.log("error setUserId", err);
+  }
+};
 
 // Middleware principal de autenticación
-export const authentication = async (req: Request, res: Response, next: NextFunction) => {};
+export const authentication = async (req: Request, res: Response, next: NextFunction) => {
+  // 1. Verificar la existencia y formato del header
+  if (!existsHeaderAuthorization(req) || !isFormatRight(req)) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  // Si pasa esta verificación, el middleware continua siguientes procesos:
+  console.log("header authorization exists");
+
+  // 2. Verificar la validez del access token
+  if (!(await isAccessTokenValid(req))) {
+    // Si el token no es válido, responda con un 401 y no continúe.
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  console.log("access token is valid");
+
+  // 3. Decodificar el token y le asignamos la referencia del userId
+  setUserId(req, res);
+
+  // 4. Dejamos la continuidad activada hacia siguientes middlewares o cierre de la ejecución
+  next();
+};
