@@ -1,10 +1,14 @@
 import { Auth } from "./auth";
 
 import { v4 as uuidv4 } from "uuid";
+import AuthAppService from "./services/auth.service";
 
 // Design Pattern Factory
 export class AuthFactory {
   static patternEmail: string = "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$";
+
+  // Nuevo patrón para validar contraseñas fuertes
+  static patternPassword: string = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
 
   static async create(name: string, email: string, password: string): Promise<Auth> {
     // Validación: El nombre debe tener al menos 3 caracteres
@@ -17,6 +21,12 @@ export class AuthFactory {
       throw new Error("Invalid email address");
     }
 
+    if (!password.match(AuthFactory.patternPassword)) {
+      throw new Error(
+        "Password must contain at least one uppercase, one lowercase, one number and one special character"
+      );
+    }
+
     // Validación: el password debe tener al menos 6 caracteres
     if (password.trim().length < 6) {
       throw new Error("Password must be at least 6 characters");
@@ -26,10 +36,10 @@ export class AuthFactory {
     const id = uuidv4();
 
     // Definiciones de la generación del token
-    const refreshToken = "jaime-token";
+    const refreshToken = AuthAppService.generateRefreshToken();
 
     // Definiciones del password asociado a un cifrado de hash
-    const passwordHash = "luis-hash";
+    const passwordHash = await AuthAppService.cipherPassword(password);
 
     // Finalmente, recibas tu instancia Auth con todos los valores procesados correctamente
     return new Auth(id, name, email, passwordHash, refreshToken);
