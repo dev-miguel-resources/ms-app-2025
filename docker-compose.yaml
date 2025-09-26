@@ -18,5 +18,23 @@ services:
     - net-ms
    # definiciones de dependencia pendientes
 
+  mongo-auth:
+    image: mongo:3.6
+    container_name: mongo-auth
+    restart: always
+    ports:
+      - 27021:27017
+    volumes:
+      - mongo-vol-auth:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: test
+    networks:
+      - net-ms
+      
+volumes:
+  mongo-vol-auth:
+
 networks:
   net-ms:
