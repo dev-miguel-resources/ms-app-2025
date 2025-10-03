@@ -21,10 +21,11 @@ export class AuthInfraestructure implements AuthRepository {
       return err(resultErr);
     }
   }
-  findOne(where: { [s: string]: string }): Promise<any> {
+  /*findOne(where: { [s: string]: string }): Promise<any> {
     throw new Error("Method not implemented.");
-  }
-  update(where: { [s: string]: string }, data: { [s: string]: string }): Promise<any> {
+  }*/
+
+  /*update(where: { [s: string]: string }, data: { [s: string]: string }): Promise<any> {
     throw new Error("Method not implemented.");
-  }
+  }*/
 }

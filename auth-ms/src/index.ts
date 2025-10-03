@@ -7,7 +7,7 @@ dotenv.config();
 const server = new ServerBootstrap();
 const database = new DatabaseBootstrap();
 
-async () => {
+(async () => {
   try {
     const listPromises = [server.initialize(), database.initialize()];
     await Promise.all(listPromises);
@@ -15,7 +15,7 @@ async () => {
     console.log(error);
     process.exit(1);
   }
-};
+})();
 
 // Levantando solo el server
 /*(async () => {

@@ -23,7 +23,7 @@ services:
     container_name: mongo-auth
     restart: always
     ports:
-      - 27021:27017
+      - 27017:27017
     volumes:
       - mongo-vol-auth:/data/db
     environment:

@@ -23,7 +23,7 @@ export default class ServerBootstrap extends Bootstrap {
 
         .on("error", err => {
           reject(err);
-          console.log("Server failed to start");
+          console.error("❌ Application failed to start:", err);
         });
     });
   }
