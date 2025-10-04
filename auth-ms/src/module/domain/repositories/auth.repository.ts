@@ -1,13 +1,15 @@
 import { Result } from "neverthrow";
 import { Auth } from "../auth";
 import { IError } from "../../../core/exceptions/error.exception";
-import { AuthResult } from "../types/auth.type";
+import { AuthProps, AuthResult } from "../types/auth.type";
 
 // Repository: Dejas el contrato de los casos de uso a implementar
 export interface AuthRepository {
   register(auth: Auth): Promise<AuthResult>;
 
-  //findOne(where: { [s: string]: string }): Promise<any>;
+  // type-safe
+  findOne(where: Partial<AuthProps>): Promise<Result<Auth | null, IError>>;
 
-  //update(where: { [s: string]: string }, data: { [s: string]: string }): Promise<any>;
+  // type-safe
+  update(where: Partial<AuthProps>, data: Partial<AuthProps>): Promise<Result<Auth | null, IError>>;
 }

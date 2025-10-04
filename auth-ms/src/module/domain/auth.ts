@@ -23,4 +23,20 @@ export class Auth {
       refreshToken: this.refreshToken
     };
   }
+
+  getId(): string {
+    return this.id;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  getPassword(): string {
+    return this.password;
+  }
+
+  getRefreshToken(): string {
+    return this.refreshToken;
+  }
 }
