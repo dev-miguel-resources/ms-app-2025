@@ -1,14 +1,15 @@
 import { InternalServerErrorException } from "../../core/exceptions/internalServer.exception";
 import { Order } from "../domain/Order";
+import { BrokerRepository } from "../domain/repositories/broker.repository";
 import { OrderRepository } from "../domain/repositories/order.repository";
 
 export class OrderApplication {
   private repositoryOrder: OrderRepository;
+  private repositoryBroker: BrokerRepository;
 
-  // traerme otra instancia
-
-  constructor(repository: OrderRepository) {
+  constructor(repository: OrderRepository, repositoryBoker: BrokerRepository) {
     this.repositoryOrder = repository;
+    this.repositoryBroker = repositoryBoker;
   }
 
   async save(order: Order): Promise<Order> {
@@ -18,7 +19,8 @@ export class OrderApplication {
       throw new InternalServerErrorException(orderResult.error.message);
     }
 
-    // falta un proceso extra
+    // Si se guarda correctamente, envía la orden al broker
+    await this.repositoryBroker.sent(orderResult.value);
 
     return orderResult.value;
   }
