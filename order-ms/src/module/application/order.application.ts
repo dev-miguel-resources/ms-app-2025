@@ -25,5 +25,8 @@ export class OrderApplication {
     return orderResult.value;
   }
 
-  // método adicional
+  // Método para iniciar la recepción de mensajes desde el broker
+  async receive() {
+    await this.repositoryBroker.receive();
+  }
 }
