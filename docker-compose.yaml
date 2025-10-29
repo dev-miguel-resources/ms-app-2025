@@ -17,6 +17,7 @@ services:
    networks:
     - net-ms
    depends_on:
+     - order-ms
      - rabbitmq
 
   auth-ms:
@@ -34,6 +35,23 @@ services:
       - net-ms
     depends_on:
       - mongo-auth  
+      
+  order-ms:
+    container_name: order-ms
+    image: order-ms
+    restart: always
+    build:
+      context: .
+      dockerfile: order-ms/Dockerfile
+      args:
+        - BASE_DIR=order-ms
+    env_file:
+      - ./order-ms/.env
+    networks:
+      - net-ms
+    depends_on:
+      - mongo-order
+      - rabbitmq  
 
   mongo-auth:
     image: mongo:3.6
