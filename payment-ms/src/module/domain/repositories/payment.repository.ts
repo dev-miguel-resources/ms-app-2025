@@ -1,6 +1,6 @@
-import { Order } from "../Payment";
-import { OrderResult } from "../types/paymentResult.type";
+import { Payment } from "../Payment";
+import { PaymentResult } from "../types/paymentResult.type";
 
-export interface OrderRepository {
-  save(order: Order): Promise<OrderResult>;
+export interface PaymentRepository {
+  save(payment: Payment): Promise<PaymentResult>;
 }

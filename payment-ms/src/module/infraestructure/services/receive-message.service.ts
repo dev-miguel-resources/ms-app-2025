@@ -9,7 +9,7 @@ export default class ReceiveMessageService {
    * exchangeType: tipo del intercambiador.
    * routingKey: clave de enrutamiento para filtrar los mensajes que interesan.
    */
-  static async paymentConfirmedOrRejected(
+  static async orderConfirmedOrRejected(
     channel: amqp.Channel,
     cb: (message: unknown) => void,
     exchangeName: string,
