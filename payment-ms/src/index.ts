@@ -8,6 +8,10 @@ import { BrokerInfraestructure } from "./module/infraestructure/broker.infraestr
 import { PaymentInfraestructure } from "./module/infraestructure/payment.infraestructure";
 import BrokerController from "./module/interface/broker/broker.controller";
 
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const server = new ServerBootstrap();
 const database = new DatabaseBootstrap();
 const broker = new BrookerBootstrap();

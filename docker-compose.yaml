@@ -51,8 +51,25 @@ services:
       - net-ms
     depends_on:
       - mongo-order
-      - rabbitmq  
+      - rabbitmq
 
+  payment-ms:
+    container_name: payment-ms
+    image: payment-ms
+    restart: always
+    build:
+      context: .
+      dockerfile: payment-ms/Dockerfile
+      args:
+        - BASE_DIR=payment-ms
+    env_file:
+      - ./payment-ms/.env
+    networks:
+      - net-ms
+    depends_on:
+      - mongo-payment
+      - rabbitmq
+  
   mongo-auth:
     image: mongo:3.6
     container_name: mongo-auth
@@ -82,6 +99,21 @@ services:
       MONGO_INITDB_DATABASE: test
     networks:
       - net-ms
+  
+  mongo-payment:
+    image: mongo:3.6
+    container_name: mongo-payment
+    restart: always
+    ports:
+      - 27019:27017
+    volumes:
+      - mongo-vol-payment:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: test
+    networks:
+      - net-ms
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -101,7 +133,8 @@ services:
       
 volumes:
   mongo-vol-auth:
-  mongo-vol-order:  
+  mongo-vol-order:
+  mongo-vol-payment:  
 
 networks:
   net-ms:

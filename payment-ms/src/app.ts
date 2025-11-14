@@ -29,7 +29,7 @@ class App {
     const router = new paymentRouter(controller);
 
     this.expressApp.use("/", (req, res) => res.send("Server is healthy"));
-    this.expressApp.use("/payment", router.router);
+    //this.expressApp.use("/payment", router.router);
   }
 
   get app() {
